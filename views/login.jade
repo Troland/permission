@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  form(action='/login', name='login-form', method='POST')
+    input(
+      id="J_userName"
+      type='text'
+      name='username'
+    )
+    input(
+      id="J_passwd"
+      type='password'
+      name='password'
+    )
+    input(id="J_submit", type='submit', value="登陆")
+    script(src="javascripts/jquery.js")
+    script(src="javascripts/login.js")

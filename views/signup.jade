@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(id="J_signForm", name='register-form')
+    input(
+      type='text'
+      name='username'
+      id="J_username"
+    )
+    input(
+      type='password'
+      name='password'
+      id="J_passwd"
+    )
+    input(type='submit', value="注册")
+  div
+    p 这是注册
+
+block scripts
+  script(src="../javascripts/signup.js")
