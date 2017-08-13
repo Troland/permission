@@ -47,6 +47,15 @@
         }
         console.log(xhr, textStatus, errorThrown)
       })
+      // 示例错误
+      $.post('/api/user', function (res) {
+        console.log(res)
+      }).fail(function (xhr, textStatus, errorThrown) {
+        if (xhr.status === 401) {
+          alert('未授权，请重新登录')
+        }
+        console.log(xhr, textStatus, errorThrown)
+      })
       $('#J_query').on('click', function (e) {
         $.post('/api/orders', function (res) {
           $('#J_result').html(res.count)

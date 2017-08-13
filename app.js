@@ -34,28 +34,19 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 const conn = mysql.createConnection({
   host: '数据库ip',
-  user: '数据库用户',
-  password: '密码',
+  user: '数据库用户名',
+  password: '数据库密码',
   database: '数据库'
 })
 
 // 连接数据库
 conn.connect()
 
-// app.get('/user', guard.check('status'), function (req, res) {
-//   res.end('好的')
-// })
-// app.all('/user/*', jwtVerify({secret: secret}), function (req, res, next) {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401).send('Invalid token...')
-//   }
-//   next()
-// })
-
 // backend route check permission
 // the permissions must contain the required permissions
 // 当登录了可以把用户信息保存在req.session.user中
-// 这里必须区分哪些是用来判断前端的，哪些是用来判断渲染，从而调用req.session.user进行验证
+// 这里必须区分哪些是用来判断前端的请求的，哪些是用来判断服务端渲染，从而调用req.user进行验证
+// checkPrivilege用作全局中间件或者个别的路径的中间件都可以。
 function checkPrivilege (required, permissions) {
   var PermissionError = new UnauthorizedError(
     'permission_denied', { message: 'Permission denied' }
@@ -134,10 +125,6 @@ app.post('/api/user', guard.check('status1'), function (req, res) {
   })
 })
 
-// app.get('/shopping', guard.check(['shopping:read']), function (req, res) {
-//
-// })
-
 // 注册
 app.get('/signup', function(req, res) {
   res.render('signup')
@@ -175,6 +162,7 @@ app.post('/signup', function(req, res, next) {
   })
 })
 
+// 捕获未授权的错误 catch permission_denied error
 app.use(function (err, req, res, next) {
   if (err.code === 'permission_denied') {
     res.status(401).send('insufficient permissions');
